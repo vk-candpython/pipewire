@@ -1,4 +1,4 @@
-# 🎵 PipeWire Setup Utility
+# 🎵 pipewire
 
 
 <div align="center">
