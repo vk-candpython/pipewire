@@ -130,7 +130,7 @@ Restart your audio applications or simply **log out and back in** for changes to
 ### Build
 
 ```bash
-g++ -std=c++17 -O2 -o pipewire-setup setup.cpp
+g++ -std=c++17 -Os -o pipewire-setup setup.cpp
 ```
 
 That's it. No external dependencies required.
@@ -256,7 +256,7 @@ Setuped PipeWire for current USER [+]
 ### Сборка
 
 ```bash
-g++ -std=c++17 -O2 -o pipewire-setup setup.cpp
+g++ -std=c++17 -Os -o pipewire-setup setup.cpp
 ```
 
 Всё. Никаких внешних зависимостей не требуется.
