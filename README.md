@@ -1,5 +1,6 @@
 # 🎵 PipeWire Setup Utility
 
+
 <div align="center">
 
 [![Platform](https://img.shields.io/badge/platform-Linux-blue?logo=linux&logoColor=white)](https://www.linux.org/)
@@ -7,7 +8,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Release](https://img.shields.io/badge/release-v1.0.0-brightgreen)](https://github.com/vk-candpython/pipewire/releases/tag/v1.0.0)
 
-*Professional low‑latency audio configuration for PipeWire*
+*Professional low‑latency and high‑quality audio configuration for PipeWire*
 
 </div>
 
@@ -39,7 +40,7 @@
 
 ## 📋 Overview
 
-**PipeWire Setup Utility** is a lightweight C++ tool that automatically configures PipeWire for **professional low‑latency audio** on Linux.
+**PipeWire Setup Utility** is a lightweight C++ tool that automatically configures PipeWire for **professional low‑latency and high‑quality audio** on Linux.
 
 It creates optimized configuration files tailored for:
 
@@ -84,7 +85,7 @@ It creates optimized configuration files tailored for:
 | `client-rt.conf` | Real‑time client configuration |
 | `jack.conf` | JACK API compatibility |
 
-Each file is pre‑tuned for **low‑latency performance** while maintaining stability.
+Each file is pre‑tuned for **low‑latency and high‑quality performance** while maintaining stability.
 
 ## 🚀 Quick Start
 
@@ -129,7 +130,7 @@ Restart your audio applications or simply **log out and back in** for changes to
 ### Build
 
 ```bash
-g++ -std=c++17 -Os -o pipewire-setup setup.cpp
+g++ -std=c++17 -O2 -o pipewire-setup setup.cpp
 ```
 
 That's it. No external dependencies required.
@@ -165,7 +166,7 @@ All configuration files are placed in:
 
 ## 📋 Обзор
 
-**PipeWire Setup Utility** — это легковесная утилита на C++, которая автоматически настраивает PipeWire для **профессионального аудио с низкой задержкой** на Linux.
+**PipeWire Setup Utility** — это легковесная утилита на C++, которая автоматически настраивает PipeWire для **профессионального аудио с низкой задержкой и высоким качеством** на Linux.
 
 Она создаёт оптимизированные конфигурационные файлы, подходящие для:
 
@@ -210,7 +211,7 @@ All configuration files are placed in:
 | `client-rt.conf` | Конфигурация для клиентов реального времени |
 | `jack.conf` | Совместимость с JACK API |
 
-Каждый файл предварительно настроен на **низкую задержку** с сохранением стабильности.
+Каждый файл предварительно настроен на **низкую задержку и высокое качество** с сохранением стабильности.
 
 ## 🚀 Быстрый старт
 
@@ -255,7 +256,7 @@ Setuped PipeWire for current USER [+]
 ### Сборка
 
 ```bash
-g++ -std=c++17 -Os -o pipewire-setup setup.cpp
+g++ -std=c++17 -O2 -o pipewire-setup setup.cpp
 ```
 
 Всё. Никаких внешних зависимостей не требуется.
