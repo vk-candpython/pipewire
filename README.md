@@ -40,16 +40,16 @@
 
 ## 📋 Overview
 
-**PipeWire Setup Utility** is a lightweight C++ tool that automatically configures PipeWire for **professional low‑latency and high‑quality audio** on Linux.
+**PipeWire Setup Utility** — is a lightweight C++ tool that automatically configures PipeWire for **extreme low‑latency and maximum audio quality** on Linux.
 
-It creates optimized configuration files tailored for:
+It creates optimized configuration files for:
 
 - 🎧 Music production (DAWs, JACK applications)
 - 🎮 Gaming with minimal audio delay
 - 🎬 Content creation and streaming
 - 🖥️ General desktop audio enhancement
 
-> 🔥 The utility applies a **fixed 48 kHz sample rate**, **512 samples buffer size**, **S32LE format**, and **Shibata dithering** — a combination that delivers **studio‑grade audio quality** with minimal CPU overhead.
+> 🔥 The utility applies a **fixed 48 kHz sample rate**, **256 samples buffer size (~5.3 ms latency)**, **S32LE format**, **resample quality 15**, and **Shibata dithering** — delivering studio‑grade audio with ultra‑low latency.
 
 ## ✨ Features
 
@@ -58,8 +58,8 @@ It creates optimized configuration files tailored for:
 | 🧠 **Zero‑Config** | Just run the binary — everything is set up automatically |
 | 🔒 **User‑Scoped** | Installs configuration to `~/.config/pipewire/` — no `sudo` required |
 | ✅ **Safety Checks** | Verifies PipeWire installation and OS compatibility |
-| ⚡ **Low Latency** | Fixed 48 kHz / 512 samples (~10.6 ms latency) |
-| 🎛️ **High Quality** | 32‑bit integer format + Shibata dithering |
+| ⚡ **Ultra‑Low Latency** | Fixed 48 kHz / 256 samples (~5.3 ms) |
+| 🎛️ **Maximum Quality** | 32‑bit integer format, resample quality 15, Shibata dithering |
 | 🔄 **Service Restart** | Automatically restarts PipeWire services after setup |
 | 🧹 **Clean Output** | Clear console feedback showing which files were written |
 
@@ -70,10 +70,10 @@ It creates optimized configuration files tailored for:
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
 | **Sample Rate** | `48000 Hz` | Industry standard for professional audio |
-| **Buffer Size** | `512 samples` | Low latency (~10.6 ms) without risking xruns |
+| **Buffer Size** | `256 samples` | Low latency (~5.3 ms) without risking xruns |
 | **Audio Format** | `S32LE` | 32‑bit signed integer — preserves dynamic range |
 | **Dithering** | `shibata` | Minimizes quantization noise at low levels |
-| **Resample Quality** | `10` (maximum) | Best possible quality for sample rate conversion |
+| **Resample Quality** | `15` (maximum) | Best possible quality for sample rate conversion |
 
 ### 📦 Included Configuration Files
 
@@ -85,13 +85,11 @@ It creates optimized configuration files tailored for:
 | `client-rt.conf` | Real‑time client configuration |
 | `jack.conf` | JACK API compatibility |
 
-Each file is pre‑tuned for **low‑latency and high‑quality performance** while maintaining stability.
+Each file is pre‑tuned for **ultra‑low latency and maximum fidelity**.
 
 ## 🚀 Quick Start
 
 ### 📥 Download Pre‑built Binary
-
-Download the latest release from the [Releases Page](https://github.com/vk-candpython/pipewire/releases/tag/v1.0.0):
 
 ```bash
 wget https://github.com/vk-candpython/pipewire/releases/download/v1.0.0/pipewire-setup
@@ -99,15 +97,9 @@ chmod +x pipewire-setup
 ./pipewire-setup
 ```
 
-### 🏃 Run
-
-```bash
-./pipewire-setup
-```
-
 **Expected output:**
 ```
-Start setuping PipeWire for current USER [*]
+Starting setup PipeWire for current USER(/home/username) [*]
 /home/username/.config/pipewire/pipewire.conf [+]
 /home/username/.config/pipewire/pipewire-pulse.conf [+]
 /home/username/.config/pipewire/client.conf [+]
@@ -118,47 +110,47 @@ Setuped PipeWire for current USER [+]
 
 ### 🔄 After Setup
 
-Restart your audio applications or simply **log out and back in** for changes to take full effect.
+Restart your audio applications or log out and back in. Or run:
+```bash
+systemctl --user restart pipewire.service pipewire-pulse.service wireplumber.service
+```
 
 ## 🛠️ Building from Source
 
 ### Prerequisites
 
-- **C++17** compatible compiler (`g++` or `clang++`)
-- PipeWire installed on the system
+- Compiler (`g++` or `clang++`)
+- PipeWire installed
 
 ### Build
 
 ```bash
-g++ -std=c++17 -Os -o pipewire-setup setup.cpp
+g++ -Os -s -o pipewire-setup setup.cpp
 ```
 
-That's it. No external dependencies required.
+No external dependencies.
 
 ## 📁 Generated Files
 
-All configuration files are placed in:
-
 ```
 ~/.config/pipewire/
-├── pipewire.conf          # Main daemon configuration
-├── pipewire-pulse.conf    # PulseAudio bridge
-├── client.conf            # Default client settings
-├── client-rt.conf         # Real‑time client settings
-└── jack.conf              # JACK compatibility layer
+├── pipewire.conf
+├── pipewire-pulse.conf
+├── client.conf
+├── client-rt.conf
+└── jack.conf
 ```
 
-> ⚠️ **Note:** Existing configuration files will be **overwritten**. Consider backing up your current PipeWire config if you have custom modifications.
+> ⚠️ Existing files will be overwritten. Back up your current PipeWire config if needed.
 
 ## 🔧 Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
-| `Cannot determine HOME directory` | Your `$HOME` environment variable is unset. Run: `export HOME=/home/yourname` |
-| `DO NOT SUPPORT OS` | The `~/.config` directory is missing. This tool is designed for standard Linux environments. |
-| `PipeWire not installed` | Install PipeWire first: `sudo apt install pipewire pipewire-pulse wireplumber` |
-| `Failed restarting PipeWire services` | Manually restart: `systemctl --user restart pipewire.service pipewire-pulse.service wireplumber.service` |
-| Audio still has high latency | Ensure no other audio servers (PulseAudio, JACK) are running and conflicting. |
+| `Cannot determine HOME directory` | `$HOME` is unset. Run: `export HOME=/home/yourname` |
+| `PipeWire not installed` | Install: `sudo apt install pipewire pipewire-pulse wireplumber` |
+| `Failed restarting services` | Restart manually: `systemctl --user restart pipewire.service pipewire-pulse.service wireplumber.service` |
+| Audio crackles at 256 samples | Increase `api.alsa.period-size` to 256 and `headroom` to 512 in `pipewire.conf` |
 
 ---
 
@@ -166,58 +158,56 @@ All configuration files are placed in:
 
 ## 📋 Обзор
 
-**PipeWire Setup Utility** — это легковесная утилита на C++, которая автоматически настраивает PipeWire для **профессионального аудио с низкой задержкой и высоким качеством** на Linux.
+**PipeWire Setup Utility** — лёгкая C++ утилита, которая автоматически настраивает PipeWire для **предельно низкой задержки и максимального качества звука** на Linux.
 
-Она создаёт оптимизированные конфигурационные файлы, подходящие для:
+Создаёт оптимизированные конфигурационные файлы для:
 
 - 🎧 Создания музыки (DAW, JACK‑приложения)
 - 🎮 Игр с минимальной задержкой звука
-- 🎬 Создания контента и стриминга
-- 🖥️ Улучшения обычного звука рабочего стола
+- 🎬 Создания контента и стримов
+- 🖥️ Повседневного использования с студийным качеством
 
-> 🔥 Утилита применяет **фиксированную частоту 48 кГц**, **размер буфера 512 семплов**, **формат S32LE** и **дизеринг Shibata** — комбинацию, обеспечивающую **студийное качество звука** с минимальной нагрузкой на процессор.
+> 🔥 Утилита фиксирует **48 кГц**, **буфер 256 семплов (~5.3 мс)**, **формат S32LE**, **качество ресемплинга 15** и **дизеринг Shibata** — студийный звук с ультра‑низкой задержкой.
 
 ## ✨ Возможности
 
 | Возможность | Описание |
 |-------------|----------|
 | 🧠 **Без настройки** | Просто запусти бинарник — всё настраивается автоматически |
-| 🔒 **На уровне пользователя** | Устанавливает конфигурацию в `~/.config/pipewire/` — `sudo` не требуется |
-| ✅ **Проверки безопасности** | Проверяет наличие PipeWire и совместимость с ОС |
-| ⚡ **Низкая задержка** | Фиксированные 48 кГц / 512 семплов (~10.6 мс задержки) |
-| 🎛️ **Высокое качество** | 32‑битный целочисленный формат + дизеринг Shibata |
-| 🔄 **Перезапуск служб** | Автоматически перезапускает службы PipeWire после настройки |
-| 🧹 **Чистый вывод** | Понятный консольный вывод с указанием записанных файлов |
+| 🔒 **Пользовательский уровень** | Конфиги кладутся в `~/.config/pipewire/` — без `sudo` |
+| ✅ **Проверки** | Проверка установки PipeWire и совместимости с ОС |
+| ⚡ **Ультра‑низкая задержка** | 48 кГц / 256 семплов (~5.3 мс) |
+| 🎛️ **Максимальное качество** | 32‑битный целый формат, ресемплинг 15, дизеринг Shibata |
+| 🔄 **Перезапуск сервисов** | Автоматический перезапуск PipeWire после настройки |
+| 🧹 **Чистый вывод** | Понятный отчёт в консоли, какие файлы записаны |
 
 ## ⚙️ Детали конфигурации
 
-### 🎚️ Параметры аудио-тракта
+### 🎚️ Параметры звукового тракта
 
 | Параметр | Значение | Обоснование |
 |----------|----------|-------------|
 | **Частота дискретизации** | `48000 Гц` | Индустриальный стандарт для профессионального аудио |
-| **Размер буфера** | `512 семплов` | Низкая задержка (~10.6 мс) без риска xrun‑ов |
-| **Аудио формат** | `S32LE` | 32‑битное знаковое целое — сохраняет динамический диапазон |
+| **Размер буфера** | `256 семплов` | Низкая задержка (~5.3 мс) без риска xrun‑ов |
+| **Аудиоформат** | `S32LE` | 32‑битное знаковое целое — сохраняет динамический диапазон |
 | **Дизеринг** | `shibata` | Минимизирует шум квантования на низких уровнях |
-| **Качество ресемплинга** | `10` (максимум) | Наилучшее качество при преобразовании частоты |
+| **Качество ресемплинга** | `15` (максимум) | Наивысшее качество при преобразовании частоты |
 
-### 📦 Включённые конфигурационные файлы
+### 📦 Создаваемые конфигурационные файлы
 
 | Файл | Назначение |
 |------|------------|
-| `pipewire.conf` | Основная конфигурация демона с определениями ALSA‑устройств |
+| `pipewire.conf` | Основная конфигурация демона с ALSA‑устройствами |
 | `pipewire-pulse.conf` | Слой совместимости с PulseAudio |
 | `client.conf` | Стандартные настройки клиента |
-| `client-rt.conf` | Конфигурация для клиентов реального времени |
+| `client-rt.conf` | Настройки клиента реального времени |
 | `jack.conf` | Совместимость с JACK API |
 
-Каждый файл предварительно настроен на **низкую задержку и высокое качество** с сохранением стабильности.
+Каждый файл уже настроен на **ультра‑низкую задержку и максимальное качество**.
 
 ## 🚀 Быстрый старт
 
 ### 📥 Скачать готовый бинарник
-
-Скачай последний релиз со [страницы релизов](https://github.com/vk-candpython/pipewire/releases/tag/v1.0.0):
 
 ```bash
 wget https://github.com/vk-candpython/pipewire/releases/download/v1.0.0/pipewire-setup
@@ -225,15 +215,9 @@ chmod +x pipewire-setup
 ./pipewire-setup
 ```
 
-### 🏃 Запуск
-
-```bash
-./pipewire-setup
-```
-
 **Ожидаемый вывод:**
 ```
-Start setuping PipeWire for current USER [*]
+Starting setup PipeWire for current USER(/home/username) [*]
 /home/username/.config/pipewire/pipewire.conf [+]
 /home/username/.config/pipewire/pipewire-pulse.conf [+]
 /home/username/.config/pipewire/client.conf [+]
@@ -244,53 +228,53 @@ Setuped PipeWire for current USER [+]
 
 ### 🔄 После настройки
 
-Перезапусти свои аудио‑приложения или просто **выйди и зайди обратно** в систему для полного применения изменений.
+Перезапусти свои аудио‑приложения или выйди и зайди обратно в систему. Либо выполни:
+```bash
+systemctl --user restart pipewire.service pipewire-pulse.service wireplumber.service
+```
 
 ## 🛠️ Сборка из исходников
 
 ### Зависимости
 
-- Компилятор с поддержкой **C++17** (`g++` или `clang++`)
+- Компилятор (`g++` или `clang++`)
 - Установленный PipeWire
 
 ### Сборка
 
 ```bash
-g++ -std=c++17 -Os -o pipewire-setup setup.cpp
+g++ -Os -s -o pipewire-setup setup.cpp
 ```
 
-Всё. Никаких внешних зависимостей не требуется.
+Никаких внешних зависимостей.
 
 ## 📁 Создаваемые файлы
 
-Все файлы конфигурации размещаются в:
-
 ```
 ~/.config/pipewire/
-├── pipewire.conf          # Основная конфигурация демона
-├── pipewire-pulse.conf    # Мост для PulseAudio
-├── client.conf            # Настройки клиента по умолчанию
-├── client-rt.conf         # Настройки клиента реального времени
-└── jack.conf              # Слой совместимости с JACK
+├── pipewire.conf
+├── pipewire-pulse.conf
+├── client.conf
+├── client-rt.conf
+└── jack.conf
 ```
 
-> ⚠️ **Внимание:** Существующие файлы конфигурации будут **перезаписаны**. Рекомендуется сделать резервную копию текущей конфигурации PipeWire, если у тебя есть кастомные изменения.
+> ⚠️ Существующие файлы будут перезаписаны. Сделай резервную копию текущей конфигурации, если это нужно.
 
 ## 🔧 Устранение неполадок
 
 | Проблема | Решение |
 |----------|---------|
-| `Cannot determine HOME directory` | Переменная окружения `$HOME` не задана. Выполни: `export HOME=/home/твоё_имя` |
-| `DO NOT SUPPORT OS` | Отсутствует директория `~/.config`. Утилита предназначена для стандартного окружения Linux. |
-| `PipeWire not installed` | Сначала установи PipeWire: `sudo apt install pipewire pipewire-pulse wireplumber` |
-| `Failed restarting PipeWire services` | Перезапусти вручную: `systemctl --user restart pipewire.service pipewire-pulse.service wireplumber.service` |
-| Звук всё ещё с высокой задержкой | Убедись, что другие звуковые серверы (PulseAudio, JACK) не запущены и не конфликтуют. |
+| `Cannot determine HOME directory` | Переменная `$HOME` не задана. Выполни: `export HOME=/home/твоё_имя` |
+| `PipeWire not installed` | Установи: `sudo apt install pipewire pipewire-pulse wireplumber` |
+| `Failed restarting services` | Перезапусти вручную: `systemctl --user restart pipewire.service pipewire-pulse.service wireplumber.service` |
+| Щелчки / xruns при 256 семплах | Увеличь `api.alsa.period-size` до 256 и `headroom` до 512 в `pipewire.conf` |
 
 ---
 
 <div align="center">
 
-**[⬆ Back to Top](#-pipewire-setup-utility)**
+**[⬆ Наверх](#-pipewire)**
 
 *Made for the Linux Audio Community*
 
