@@ -274,7 +274,7 @@ g++ -Os -s -o pipewire-setup setup.cpp
 
 <div align="center">
 
-**[⬆ Наверх](#-pipewire)**
+**[⬆ Back to Top](#-pipewire)**
 
 *Made for the Linux Audio Community*
 
